@@ -1,36 +1,28 @@
 import { Context } from "../..";
 
-interface UserParentType {
-  id: number;
+interface UserPayload {
+  userId: number;
 }
 
 export const User = {
-  ordens: (parent: UserParentType, __: any, { userInfo, prisma }: Context) => {
-    const isOwnProfile = parent.id === userInfo?.userId;
-
-    if (isOwnProfile) {
-      return prisma.orden.findMany({
-        where: {
-          authorId: parent.id,
-        },
-        orderBy: [
-          {
-            createdAt: "desc",
-          },
-        ],
-      });
-    } else {
-      return prisma.orden.findMany({
-        where: {
-          authorId: parent.id,
-          published: true,
-        },
-        orderBy: [
-          {
-            createdAt: "desc",
-          },
-        ],
-      });
-    }
+  ordens:async (_:any, {userId}: UserPayload, { userInfo, prisma }: Context) => {
+     const user = await prisma.user.findUnique({
+       where:{
+         id: userId
+       }
+     })
+     if(User){
+       throw new Error("Usuario no encontrado")
+     }
+     if(user?.id.toString !== userInfo?.userId){
+       throw new Error("No tienes las credenciales")
+     }
+     return{
+       ordens:  await prisma.ordens.findMany({
+         where:{
+           userId:userInfo?.userId
+         }
+       })
+     }
   },
 };

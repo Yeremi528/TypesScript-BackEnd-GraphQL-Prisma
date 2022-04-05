@@ -1,6 +1,4 @@
 
-/*
-
 import { Prisma, Autos} from "@prisma/client"
 
 import {Context} from "../.."
@@ -117,4 +115,3 @@ export const autosResolvers={
     
 }
 
-*/

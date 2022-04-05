@@ -15,12 +15,32 @@ model User {
   password  String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  orden     Orden[]
 
 }
 model Admin {
-  id      Int       @id @default(autoincrement())
-  email   String    @unique
-  name    String
-  password String
-
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String
+  apellido  String
+  password  String
+  autos     Auto[]
+}
+model Auto {
+  id          Int     @id @default(autoincrement())
+  titulo      String
+  imagen      String
+  descripcion String
+  stock       Int
+  adminId     Int
+  admin       Admin  @relation(fields: [adminId],references: [id])
+}
+model Orden {
+  id          Int     @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime @default(now())
+  published   Boolean
+  userId      Int
+  user        User    @relation(fields: [userId],references: [id])
 }

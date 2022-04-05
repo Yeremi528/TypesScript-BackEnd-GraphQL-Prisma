@@ -39,12 +39,6 @@ export const typeDefs = gql `
        password:String!
        ordens:[Orden!]!
    }
-   type Profile {
-       id:ID!
-       bio:String
-       isMyProfile:Boolean!
-       user:User!
-   }
    type UserErrors{
        message:String
    }
@@ -65,7 +59,7 @@ export const typeDefs = gql `
        imagen:      String!
        descripcion: String!
        admin:       Admin
-       stock:       Boolean
+       stock:       Int
 
    }
    type autosPayload{
